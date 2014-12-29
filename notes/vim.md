@@ -365,10 +365,28 @@ Vim bindings and more in Chrome.
 * `K`, `gt`, `J`, `gT`, `g0`, `g$`, `yt`, `x`, `X`: navigate, duplicate, close, restore tabs
 * `H`, `L`: back, forward in history
 
+## Shell
+
+To switch to vim bindings in the shell add `set -o vi` to your `.bashrc` or
+`.zshrc`.  The shell will start in insert mode after a prompt.  By default, the
+mode is not visible, but it can be turned on with the following `.inputrc`
+configuration (showing a + for insert and a : for normal mode at the beginning
+of the line):
+
+```
+set show-mode-in-prompt on
+set editing-mode vi
+set keymap vi-command
+```
 
 ## Vrapper
 
 Turns Eclipse editors into vim-like editors (including split windows, search,
 etc.) while maintaining Eclipse's language specific features (syntactical
 selection, refactoring, source generation).
+
+However, this is a tough choice, because eclim in combination with ycm provides
+the most useful Eclipse functions as well (e.g., code completion, rename
+refactoring, and constructor and accessor generation) while staying in the vim
+environment.
 
