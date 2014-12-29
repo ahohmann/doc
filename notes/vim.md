@@ -231,9 +231,11 @@ part because it obviously relies on vi commands for navigation).
 
 * `<c-w>q`, `<c-w>o`: close current, other window(s)
 * `:windo *cmd*`: run command in all windows
-* `<c-w>-`, `<c-w>+`, `<c-w><`, `<c-w>>`: descrease, increase vertical, horizontal size
+* `<c-w>-`, `<c-w>+`, `z{nr}<cr>`, `<c-w><`, `<c-w>>`, `<c-w>|`: descrease,
+  increase, set height, width
 * `<c-w>r`, `<c-w>R`, `<c-w>x`: rotate, exchange windows
-* `<c-w>H`, `<c-w>J`, `<c-w>K`, `<c-w>L`: move current window to left, bottom, top, right
+* `<c-w>H`, `<c-w>J`, `<c-w>K`, `<c-w>L`: move current window to left, bottom,
+  top, right
 
 ### XML Editing
 
@@ -257,14 +259,14 @@ Steps:
 * Generate tags file with `ctags -R .`
 * Jump to definition with `<C-]>`, jump back with `<C-t>` (as in help navigation).
 * Search tag with `:tag /regex
-* Use `:t[s, n, p, f, l]` for show, next, previous, first, last.
+* Use `:ts`, `:tn`, `:tp`, `:tf`, `:tl` for show, next, previous, first, last.
 
 ### grep
 
 Vim has a built-in `:vimgrep` and can also call the external grep command.
 
 * ```:vimgrep /pattern/ *.js```
-* `:cn', ':cN': next, previous occurrence (quickfix list)`
+* `:cn`, `:cN`: next, previous occurrence (quickfix list)
 
 ### Colors: solarized
 
@@ -354,14 +356,14 @@ $ npm -g install instant-markdown-d
 
 Vim bindings and more in Chrome.
 
-* ?: help
-* h, j, k, l, gg, G, d, u: scroll left, down, up, right, top, bottom, page down, page up
-* gs: page source
-* yy: copy URL to clipboard 
-* f, F: open link on page with keyboard
-* o, O, b, B: open anything, bookmark in current, new tab
-* K, gt, J, gT, g0, g$, yt, x, X: navigate, duplicate, close, restore tabs
-* H, L: back, forward in history
+* `?`: help
+* `h`, `j`, `k`, `l`, `gg`, `G`, `d`, `u`: scroll left, down, up, right, top, bottom, page down, page up
+* `gs`: page source
+* `yy`: copy URL to clipboard 
+* `f`, `F`: open link on page with keyboard
+* `o`, `O`, `b`, `B`: open anything, bookmark in current, new tab
+* `K`, `gt`, `J`, `gT`, `g0`, `g$`, `yt`, `x`, `X`: navigate, duplicate, close, restore tabs
+* `H`, `L`: back, forward in history
 
 
 ## Vrapper
