@@ -71,14 +71,13 @@ current line is the default range (`.`) of all ex commands apart from `global`.
 ### Initial Setup
 
 To use vim efficiently it is essential to have Escape in a convenient location,
-because reentering command mode has to become second nature.  I'm using
-[Kinesis](https://www.kinesis-ergo.com) keyboards at home and at work, which
-are incredibly valuable for keyboard shortcuts relying on the Ctrl and Alt key
-that are so common in emacs and IDEs.  However, the Escape key is the most
-difficult key to reach.  I therefore remapped CapsLock on my Kinesis keyboards
-to the escape key.  On normal keyboards, CapsLock is a perfect location for a
-Ctrl key, so that I left this mapping and use Ctrl-[ (pressing CapsLock) for
-Escape.
+because reentering command mode has to become second nature.  I'm using a
+[Kinesis](https://www.kinesis-ergo.com) keyboard most of the time, which is
+incredibly valuable for keyboard shortcuts relying on the Ctrl and Alt key that
+are so common in emacs and IDEs.  However, the Escape key is the most difficult
+key to reach.  I therefore remapped CapsLock on my Kinesis keyboards to the
+escape key.  On normal keyboards, CapsLock is a perfect location for a Ctrl
+key, so that I left this mapping and use Ctrl-[ (pressing CapsLock) for Escape.
 
 As often recommended, I added a few initial lines to my `.vimrc` to get started:
 
@@ -86,6 +85,7 @@ As often recommended, I added a few initial lines to my `.vimrc` to get started:
 set nocompatible
 let mapleader=" "
 set incsearch ignorecase smartcase hlsearch
+nnoremap <c-l> :noh<cr><c-l>
 ```
 
 I'm picking the space bar as the leader key, because its normal function is
@@ -93,6 +93,13 @@ redundant and it's very easy to use.  I did not choose the often used `,`,
 because its original function is useful (especially in view of the symmetric
 `;` and `,` commands) and I want to stay close to the original mapping just in
 case I have to use vim without my settings.
+
+The last line allows for a quick way to get rid of the highlighting after a
+search.  Overriding the refresh shortcut `<c-l>` was the best option I could
+find.  The `noremap` command means (as I learned from "Learn Vimscript the Hard
+Way") non-recursive mapping in normal mode, where the "non-recursive" refers to
+the fact that the keys used in the key binding will have their original meaning
+and not the one defined in some other mapping.
 
 Especially during the first few weeks it's good to be able to make quick
 changes to the configuration file with little interruption of the normal
@@ -103,11 +110,6 @@ two bindings for editing and reloading my `.vimrc` file:
 :nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 :nnoremap <leader>sv :source $MYVIMRC<cr>
 ```
-
-The fancy `noremap` map command means (as I also learned from "Learn Vimscript
-the Hard Way") non-recursive mapping in normal mode, where the "non-recursive"
-refers to the fact that the keys used in the key binding will have their
-original meaning and not the one defined in some other mapping.
 
 I also mapped `<c-s>` to the write command, because I'm used to it (at least
 outside of emacs):
@@ -126,7 +128,7 @@ nnoremap <c-q> vipgq
 inoremap <c-q> <esc>vipgq
 ```
 
-Finally, I found a comprehensive status line format:
+Initially, I found the following comprehensive status line format:
 
 ```
 set statusline=%F[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
@@ -134,7 +136,9 @@ set statusline=%F[%{strlen(&fenc)?&fenc:'none'},%{&ff}]%h%m%r%y%=%c,%l/%L\ %P
 
 It shows the full file name (`%F`), file encoding if available (`fenc`), file
 format (`ff`), modification marker, and the position in terms of line, column,
-and percentage.
+and percentage.  Later I switched to
+[airline](https://github.com/bling/vim-airline) which has a good format out of
+the box.
 
 ### Windows
 
@@ -333,6 +337,8 @@ Essential plugins are
   - `<cr>`, `o`, `go`: open, preview (see `?` for more)
   - `q`: close quickfix window
   - without args, `:Ack` locks for current word
+* terryma/vim-expand-region: `+`, `__` select more, less
+* bling/vim-airline: lightweight statusline
 
 ### Ultisnips
 
