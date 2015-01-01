@@ -477,8 +477,133 @@ shows the dependency graph (including any conflict resolution decision it has
 made) with `gradle dependencies`.  The downloaded libraries are stored in the
 `~/.gradle/caches/modules-2` directory by default.
 
-Now, all that's left is to learn the (well-documented) Gradle API.
+Looking at this build script one can recognize the properties and methods of
+the [Project][Project] interface.  In other words, Gradle uses the build script
+to configure the Project object of the project associated with the directory.
 
+## Multi Project Builds
+
+Rather sooner than later it's a good idea to split a project into multiple
+modules (or "projects" in Gradle terms).  A Gradle multi-project build
+configuration starts with another file, `settings.gradle` (by default).  This
+file corresponds to a [Settings][Settings] object and defines which sub project
+belong to the overall master project and where to find them.  Whenever Gradle
+find a `settings.gradle` file (either in `master` or a parent diretory), it
+considers the build a multi-project build.
+
+The actual projects can then be defined either in the main build script or in
+the build scripts of the subprojects.  The main build script may also contain
+configuration that is shared across all subprojects.
+
+As a simple example, consider a project with three functional modules, "party"
+(for classes modeling parties and their roles), "product", and "sale".
+Modeling each module as a Gradle sub project, we end up with the following
+multi-project structure:
+
+```
+.
+├── build.gradle
+├── party
+│   ├── build.gradle
+│   └── src
+│       └── main
+│           └── java
+│               └── com
+│                   └── example
+│                       └── party
+│                           └── Person.java
+├── product
+│   ├── build.gradle
+│   └── src
+│       └── main
+│           └── java
+│               └── com
+│                   └── example
+│                       └── product
+│                           └── Product.java
+├── sale
+│   ├── build.gradle
+│   └── src
+│       └── main
+│           └── java
+│               └── com
+│                   └── example
+│                       └── sale
+│                           └── Sale.java
+└── settings.gradle
+```
+
+The `settings.gradle` file defines the three subprojects (one could also define
+all three in a single line):
+
+```
+include 'person'
+include 'product'
+include 'sale'
+```
+
+Calling `gradle project` will now show this hierarchical project structure:
+
+```
+Root project 'multi-hello'
++--- Project ':person'
++--- Project ':product'
+\--- Project ':sale'
+```
+
+Note that the subproject names use a colon notation. When calling a task of a
+subproject from the main level, the subproject's name is used as a prefix, for
+example:
+
+```
+gradle person:tasks
+```
+
+The main `build.gradle` file typically contains only configuration that is
+applicable to all subprojects or the project as a whole. In this example, I'm
+only including the project group and version informations:
+
+```
+ext.projectIds = ['group': 'com.example.sample', 'version': '0.1']
+group = projectIds.group
+version = projectIds.version
+```
+
+The subproject build scripts are no different from the single project build
+scripts apart from the fact that they inherit the parent project's properties.
+We can, for example, use the `projectIds` property when defining the
+subprojects.  Furthermore, the dependencies can now refer to other subprojects.
+The "sale" project, for example, depends on the two other projects:
+
+```
+apply plugin: 'java'
+
+version = projectIds.version
+
+dependencies {
+  compile project(':party')
+  compile project(':product')
+}
+```
+
+We could also define the subproject in the main `build.gradle` file by passing
+the configuration as a closure to a `project(...)` call:
+
+```
+project(':sale') {
+  apply plugin: 'java'
+  version = projectIds.version
+  dependencies {
+    compile project(':party')
+    compile project(':product')
+  }
+}
+```
+
+When building the whole project (or just the "sale" subproject), Gradle will
+now build the subprojects in the correct order and with the classpath set
+appropriately when compiling the classes in the "sale" subproject.
+ 
 [groovy]: http://groovy.codehaus.org/ "Groovy"
 [grails]: http://grails.org/ "Grails"
 [gradle]: http://www.gradle.org/ "Gradle"
@@ -486,4 +611,6 @@ Now, all that's left is to learn the (well-documented) Gradle API.
 [gradle-task-dsl-ast-transformation]: http://groovy.329449.n5.nabble.com/Explain-Gradle-DSL-for-declaring-tasks-td5715160.html
 [TaskDefinitionScriptTransformer]: https://github.com/gradle/gradle/blob/master/subprojects/core/src/main/groovy/org/gradle/groovy/scripts/internal/TaskDefinitionScriptTransformer.java
 [gradle-java-quickstart]: http://www.gradle.org/docs/current/userguide/tutorial_java_projects.html
+[Project]: http://www.gradle.org/docs/current/javadoc/org/gradle/api/Project.html
+[Settings]: http://www.gradle.org/docs/current/javadoc/org/gradle/api/Settings.html
 
