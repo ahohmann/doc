@@ -202,7 +202,6 @@ workflow.
 * `xp`, `Xp`: swap current character with next, previous
 * `*` and `#` search the current word forwards and backwards, respectively. The
   `g*` and `g#` variants also match inside words.
-* `:N` repeats the last search in the opposite direction.
 * `qxq` clears register `x`
 * useful ex commands: s, S (with vim-abolish), yank, sort
 * ex range limits may a expressions involving patterns (representing the next
