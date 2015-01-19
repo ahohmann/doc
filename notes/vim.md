@@ -85,7 +85,7 @@ As often recommended, I added a few initial lines to my `.vimrc` to get started:
 set nocompatible
 let mapleader=" "
 set incsearch ignorecase smartcase hlsearch
-nnoremap <c-l> :noh<cr><c-l>
+nnoremap <cr> :noh<cr>
 ```
 
 I'm picking the space bar as the leader key, because its normal function is
@@ -95,11 +95,11 @@ because its original function is useful (especially in view of the symmetric
 case I have to use vim without my settings.
 
 The last line allows for a quick way to get rid of the highlighting after a
-search.  Overriding the refresh shortcut `<c-l>` was the best option I could
-find.  The `noremap` command means (as I learned from "Learn Vimscript the Hard
-Way") non-recursive mapping in normal mode, where the "non-recursive" refers to
-the fact that the keys used in the key binding will have their original meaning
-and not the one defined in some other mapping.
+search.  Overriding the return key was the best option I could find.  The
+`noremap` command means (as I learned from "Learn Vimscript the Hard Way")
+non-recursive mapping in normal mode, where the "non-recursive" refers to the
+fact that the keys used in the key binding will have their original meaning and
+not the one defined in some other mapping.
 
 Especially during the first few weeks it's good to be able to make quick
 changes to the configuration file with little interruption of the normal
@@ -156,10 +156,10 @@ nnoremap <C-w>\| <c-w>v
 ```
 
 I'm using the same split keys in my tmux configuration following Brian Hogan's
-"tmux: Productive Mouse-Free Deveopment".  I initially bound vim's window
-navigation to `<c-h`, `<c-j>`, and so forth, but this wasn't a big improvement,
-because a prefix for all windows commands is easy to memorize and consistent with
-switching windows in other tools such as tmux.
+"tmux: Productive Mouse-Free Deveopment".  Finally, the
+[vim-tmux-navigator](https://github.com/christoomey/vim-tmux-navigator) allows
+for using `<c-h>`, `<c-j>`, `<c-k>`, and `<c-l>` to navivate vim windows and
+tmux panes.
 
 ## Operator-Pending Mode, Moves, and Text Objects
 
@@ -337,6 +337,8 @@ Essential plugins are
   - `q`: close quickfix window
   - without args, `:Ack` locks for current word
 * terryma/vim-expand-region: `+`, `__` select more, less
+* christoomey/vim-tmux-navigator: easy window pane/window navigation across vim
+  and tmux
 * bling/vim-airline: lightweight statusline
 
 ### Ultisnips
@@ -395,3 +397,23 @@ the most useful Eclipse functions as well (e.g., code completion, rename
 refactoring, and constructor and accessor generation) while staying in the vim
 environment.
 
+## Eclim
+
+[Eclim](http://eclim.org) uses eclipse as an "IDE server".  The eclim Eclipse
+plugin exposes the eclipse compiler functionality as a server, and the eclim
+vim plugin talks to this server to make this functionality available in vim.
+The eclim server is run as a separate daemon (`eclimd`).  Although it does not
+use the UI portion of Eclipse, it still needs an X server on UNIX systems.  To
+go truly [headless](http://eclim.org/install.html#install-headless) (e.g., when
+using eclim remotely), one can start an xvfb (X virtual frame buffer) server
+and let eclimd talk to this X server:
+
+```
+Xvfb :1 -screen - 1024x768x24 &
+DISPLAY=:1 eclimd -b
+```
+
+Most important commands:
+
+* `:Validate` (performed automatically when saving a file), marks errors in
+  location list (which can be navigated with `[l`, `]l` when using unimpaired).
