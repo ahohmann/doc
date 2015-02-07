@@ -204,9 +204,10 @@ workflow.
   `g*` and `g#` variants also match inside words.
 * `qxq` clears register `x`
 * useful ex commands: s, S (with vim-abolish), yank, sort
-* ex range limits may a expressions involving patterns (representing the next
+* ex range limits may expressions involving patterns (representing the next
   line containing the pattern), e.g., `.+1,/foo/-1`
-* `:cw` opens quickfix window, `<cr>` selects location, `:ccl` closes the window
+* `:cw` opens quickfix window, `<cr>` selects location, `:ccl` closes the
+  window
 
 ### Marks
 
@@ -312,7 +313,7 @@ Essential plugins are
 * tommcdo/vim-exchange
   - `cx{motion}` applied twice (the second time often with `.`) will exchange
     the two selection regions
-  - `cxx` selects current line
+  - `cxx` selects current line (`cxx`, move, `.` swap any two lines)
   - `cxc` clears a first selection
 * scrooloose/nerdcommenter: comment/uncomment blocks in many languages
   - `<leader>cc`: toggles comment
@@ -337,9 +338,17 @@ Essential plugins are
   - `q`: close quickfix window
   - without args, `:Ack` locks for current word
 * terryma/vim-expand-region: `+`, `__` select more, less
+* bkad/CamelCaseMotion: `,` becomes a camel-case prefix for word moves, e.g.,
+  `c,w` to change a camel word.
+* kana/vim-textobj-user and kana/vim-textobj-entire: add `e` as "entire" move
+  for the whole document
 * christoomey/vim-tmux-navigator: easy window pane/window navigation across vim
   and tmux
 * bling/vim-airline: lightweight statusline
+* mtth/scratch.vim: auto-hiding scratch window
+  - `gs`: open scratch window in insert mode (and closes it when leaving insert
+    mode), coming from visual mode the selection is copied
+  - `gS`: same but clearing scratch buffer first
 
 ### Ultisnips
 
