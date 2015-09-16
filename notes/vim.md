@@ -145,9 +145,9 @@ the box.
 Before even starting to use vim for real I had to make sure that it supported
 my normal workflows working with many files at the same time, either in
 multiple frames on a large screen or switching quickly between them on a
-smaller screen.  Fortunately, the multi-window split-screen support turned out
+smaller screen. Fortunately, the multi-window split-screen support turned out
 to be so good that it became one of the main reasons to install Vrapper in
-eclipse (see below).  I added the following key bindings to make the shortcuts
+eclipse (see below). I added the following key bindings to make the shortcuts
 for horizontal and vertical split more mnemonic.
 
 ```
@@ -342,6 +342,18 @@ Essential plugins are
   `c,w` to change a camel word.
 * kana/vim-textobj-user and kana/vim-textobj-entire: add `e` as "entire" move
   for the whole document
+* tpope/vim-fugitive: excellent git integration. I most often use
+  - `:Gstatus` view: `g?` shows help, `q` closes, `<cr>` opens file.
+    - `-` adds/removes files from staging area
+    - `cc`, `ca`: commit (with --amend)
+    - `D` shows file in vimdiff (`[c`, `]c` to navigate, `dp`/`do` to
+      put/obtain a change)
+  - `:Gcommit`, `:Gpull`, `:Gpush` for the associated git commands and `:Git`
+    for the rest
+   
+
+Some other plugins to consider:
+
 * christoomey/vim-tmux-navigator: easy window pane/window navigation across vim
   and tmux
 * bling/vim-airline: lightweight statusline
@@ -426,3 +438,4 @@ Most important commands:
 
 * `:Validate` (performed automatically when saving a file), marks errors in
   location list (which can be navigated with `[l`, `]l` when using unimpaired).
+
